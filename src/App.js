@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import Card from './components/Card/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
@@ -12,16 +13,16 @@ function App() {
   const [cartOpened, setCartOpened] = React.useState(false); //Отображает раскрытие и закрытие левого меню корзины 
   
  React.useEffect(() => {
-  fetch('https://63a033b8e3113e5a5c369f14.mockapi.io/items')
-   .then((res) => {
-    return res.json();
-   })
-    .then((json) => {
-      setItems(json);
-    });
+  axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/items').then (res => {
+    setItems(res.data);
+  });
+  axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/cart').then (res => {
+    setCartItems(res.data);
+  });
  },[]);
 
  const onAddToCart = (obj) => {
+  axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/cart', obj);
   setCartItems((prev) => [...prev, obj]);
  }
 
@@ -50,7 +51,9 @@ function App() {
         </div>
         
         <div className="d-flex flex-wrap">
-          {items.map((item, index) => (
+          {items
+          .filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+          .map((item, index) => (
             <Card 
               key={index}
               title={item.title} 
