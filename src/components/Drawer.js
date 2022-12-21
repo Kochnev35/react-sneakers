@@ -18,7 +18,11 @@ function Drawer({ onClose, onRemove, items = []}) {
                     <p className="mb-5">{obj.title}</p>
                     <b>{obj.price}</b>
                   </div>
-                  <img onClick={() => onRemove(obj.id)} className="removeBtn" src="/img/btn-remove.svg" alt="Remove" />
+                  <img 
+                    onClick={() => onRemove(obj.id)} 
+                    className="removeBtn" 
+                    src="/img/btn-remove.svg" 
+                    alt="Remove" />
                 </div> 
               ))}
               </div>
@@ -43,7 +47,7 @@ function Drawer({ onClose, onRemove, items = []}) {
               <img class="mb-20" width="120px" height="120px" src="/img/empty-cart.jpg" alt="Empty cart"/>
               <h2>Корзина пустая</h2>
               <p class="opacity-6">Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-              <button class="greenButton">
+              <button onClick={onClose} class="greenButton">
                 <img src="/img/arrow.svg" alt="Arrow"/>
                 Вернуться назад
               </button>
