@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Route } from 'react-router-dom';import axios from 'axios';
+import { Route, Routes  } from 'react-router-dom';
+import axios from 'axios';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
 
@@ -22,6 +23,9 @@ function App() {
   });
   axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/cart').then (res => {
     setCartItems(res.data);
+  });
+  axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites').then (res => {
+    setFavorites(res.data);
   });
  },[]);
 
@@ -49,18 +53,21 @@ function App() {
     <div className="wrapper clear">
       {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
       <Header onClickCart={() => setCartOpened(true)}/>
-      <Route exact path="/">
-        <Home 
-          items={items} 
-          searchValue={searchValue} 
-          setSearchValue={setSearchValue} 
-          onChangeSearchInput={onChangeSearchInput}
-          onAddToCart={onAddToCart} 
-          onAddToFavorite={onAddToFavorite} />      
-      </Route>
-      <Route exact path="/favorites">
-        <Favorites />
-      </Route>
+      <Routes>
+          <Route path='/' element={
+          <Home 
+            items={items} 
+            searchValue={searchValue} 
+            setSearchValue={setSearchValue} 
+            onChangeSearchInput={onChangeSearchInput}
+            onAddToCart={onAddToCart} 
+            onAddToFavorite={onAddToFavorite} />}>
+          </Route>
+
+          <Route path="/favorites" element={
+            <Favorites items={favorites} />}>
+          </Route>
+        </Routes>
     </div>
   );
 }
