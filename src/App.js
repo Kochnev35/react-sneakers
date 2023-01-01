@@ -39,9 +39,17 @@ function App() {
   setCartItems((prev) => prev.filter((item) => item.id !== id));
  };
 
- const onAddToFavorite = (obj) => {
-  axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites', obj);
-  setFavorites((prev) => [...prev, obj]);
+ const onAddToFavorite = async (obj) => {
+  try {
+    if (favorites.find(favObj => favObj.id === obj.id)) {
+      axios.delete(`https://63a033b8e3113e5a5c369f14.mockapi.io/favorites/${obj.id}`);
+    } else {
+      const { data } = await axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites', obj);
+      setFavorites((prev) => [...prev, data]);
+    }
+  } catch (error) {
+    alert('Не удалось добавить в избранное'); //Если будет ошибка в asyng и await, то catch выдаст ошибку
+  }
  };
 
  const onChangeSearchInput = (event) => {
@@ -65,7 +73,7 @@ function App() {
           </Route>
 
           <Route path="/favorites" element={
-            <Favorites items={favorites} />}>
+            <Favorites items={favorites} onAddToFavorite={onAddToFavorite} />}>
           </Route>
         </Routes>
     </div>
