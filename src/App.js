@@ -17,21 +17,35 @@ function App() {
   const [searchValue, setSearchValue] = React.useState('');
   const [cartOpened, setCartOpened] = React.useState(false); //Отображает раскрытие и закрытие левого меню корзины 
   
- React.useEffect(() => {
-  axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/items').then (res => {
-    setItems(res.data);
-  });
-  axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/cart').then (res => {
-    setCartItems(res.data);
-  });
-  axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites').then (res => {
-    setFavorites(res.data);
-  });
- },[]);
+  React.useEffect(() => {
+    async function fetchData(){
+      const cartResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/cart'); //Запрос на корзину
+      const favoritesResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites'); //Запрос на избранное
+      const itemsResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/items'); //Запрос на список всех товаров
+  
+      setCartItems(cartResponse.data);
+      setFavorites(favoritesResponse.data);
+      setItems(itemsResponse.data);
+  
+    }
+  
+    fetchData();
+  
+   },[]);
 
  const onAddToCart = (obj) => {
-  axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/cart', obj);
-  setCartItems((prev) => [...prev, obj]);
+  console.log(obj);
+  try {
+    if (cartItems.find(item => Number(item.id) === Number(obj.id))) {
+      axios.delete(`https://63a033b8e3113e5a5c369f14.mockapi.io/cart/${obj.id}`);
+      setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)));
+    } else {
+      axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/cart', obj);
+      setCartItems((prev) => [...prev, obj]);
+    }
+  } catch (error) {
+    
+  }
  };
 
  const onRemoveItem = (id) => {
@@ -65,6 +79,7 @@ function App() {
           <Route path='/' element={
           <Home 
             items={items} 
+            cartItems={cartItems}
             searchValue={searchValue} 
             setSearchValue={setSearchValue} 
             onChangeSearchInput={onChangeSearchInput}
