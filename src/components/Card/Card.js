@@ -16,10 +16,9 @@ function Card({
   const [isAdded, setIsAdded] = React.useState(added);
   const [isFavorite, setIsFavorite] = React.useState(favorited);
 
-
   const onClickPlus = () => {
     onPlus({title, imageUrl, price});
-    setIsAdded(!isAdded);
+    setIsAdded(!isAdded); //Добавление в корзину
   };
 
   const onClickFavorite = () => {
