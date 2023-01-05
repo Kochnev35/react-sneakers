@@ -1,3 +1,4 @@
+import React from 'react';
 import Card from '../components/Card/Card';
 
 function Home ({
@@ -7,23 +8,21 @@ function Home ({
   onChangeSearchInput, 
   onAddToCart, 
   onAddToFavorite,
-  cartItems,
   isLoading,
 }) {
-const renderItems = () => {
-  const filtredItems = items.filter((item) => 
-    item.title.toLowerCase().includes(searchValue.toLowerCase()))
-  return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
-    <Card 
-      key={index}
-      {...item} 
-      onPlus={(obj) => onAddToCart(obj)} 
-      onFavorite={(obj) => onAddToFavorite(obj)}
-      added={cartItems.some((obj) => Number(obj.id) === Number(item.id))}
-      loading={isLoading}
-    />
-  ))
-}; 
+  const renderItems = () => {
+    const filtredItems = items.filter((item) => 
+      item.title.toLowerCase().includes(searchValue.toLowerCase()))
+    return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
+      <Card 
+        key={index}
+        {...item} 
+        onPlus={(obj) => onAddToCart(obj)} 
+        onFavorite={(obj) => onAddToFavorite(obj)}
+        loading={isLoading}
+      />
+    ))
+  }; 
 
   return (
       <div className="content p-40">

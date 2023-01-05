@@ -38,17 +38,17 @@ function App() {
    },[]);
 
  const onAddToCart = (obj) => {
-  console.log(obj);
   try {
-    if (cartItems.find(item => Number(item.id) === Number(obj.id))) {
+    if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
       axios.delete(`https://63a033b8e3113e5a5c369f14.mockapi.io/cart/${obj.id}`);
-      setCartItems(prev => prev.filter(item => Number(item.id) !== Number(obj.id)));
+      setCartItems(prev => prev.filter((item) => Number(item.id) !== Number(obj.id)));
     } else {
       axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/cart', obj);
       setCartItems((prev) => [...prev, obj]);
     }
   } catch (error) {
-    
+    alert('Ошибка при добавлении в корзину');
+    console.error(error);
   }
  };
 
@@ -59,14 +59,15 @@ function App() {
 
  const onAddToFavorite = async (obj) => {
   try {
-    if (favorites.find(favObj => favObj.id === obj.id)) {
+    if (favorites.find((favObj) => favObj.id === obj.id)) {
       axios.delete(`https://63a033b8e3113e5a5c369f14.mockapi.io/favorites/${obj.id}`);
     } else {
       const { data } = await axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites', obj);
       setFavorites((prev) => [...prev, data]);
     }
   } catch (error) {
-    alert('Не удалось добавить в избранное'); //Если будет ошибка в asyng и await, то catch выдаст ошибку
+    alert('Не удалось добавить в избранное');
+    console.error(error); //Если будет ошибка в asyng и await, то catch выдаст ошибку
   }
  };
 
@@ -74,9 +75,12 @@ function App() {
   setSearchValue(event.target.value);
  };
 
+const isItemAdded = (id) => {
+  return cartItems.some((obj) => Number(obj.id) === Number(id));
+}
 
   return (
-    <AppContext.Provider value={{items, cartItems, favorites,}}>
+    <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, }}>
       <div className="wrapper clear">
         {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
         <Header onClickCart={() => setCartOpened(true)}/>
