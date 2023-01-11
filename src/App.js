@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes  } from 'react-router-dom';
 import axios from 'axios';
 import Header from './components/Header';
-import Drawer from './components/Drawer';
+import Drawer from './components/Drawer/Drawer';
 import AppContext from './context';
 
 import Home from './pages/Home';
@@ -22,31 +22,33 @@ function App() {
 
   React.useEffect(() => {
     async function fetchData(){
-      setIsLoading(true); // Загрузка начата
-      const cartResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/cart'); //Запрос на корзину
-      const favoritesResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites'); //Запрос на избранное
-      const itemsResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/items'); //Запрос на список всех товаров
-  
-      setIsLoading(false); // Загрузка закончена 
+      try {
+        setIsLoading(true); // Загрузка начата
+        const cartResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/cart'); //Запрос на корзину
+        const favoritesResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/favorites'); //Запрос на избранное
+        const itemsResponse = await axios.get('https://63a033b8e3113e5a5c369f14.mockapi.io/items'); //Запрос на список всех товаров
+    
+        setIsLoading(false); // Загрузка закончена 
 
-      setCartItems(cartResponse.data);
-      setFavorites(favoritesResponse.data);
-      setItems(itemsResponse.data);
-  
-    }
+        setCartItems(cartResponse.data);
+        setFavorites(favoritesResponse.data);
+        setItems(itemsResponse.data);
+      } catch (error) {
+        alert('Ошибка при запросе данных');
+        console.error(error);
+      }
   
     fetchData();
-  
-   },[]);
+  }},[]);
 
- const onAddToCart = (obj) => {
+ const onAddToCart = async (obj) => {
   try {
     if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
-      axios.delete(`https://63a033b8e3113e5a5c369f14.mockapi.io/cart/${obj.id}`);
       setCartItems(prev => prev.filter((item) => Number(item.id) !== Number(obj.id)));
+      await axios.delete(`https://63a033b8e3113e5a5c369f14.mockapi.io/cart/${obj.id}`);
     } else {
-      axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/cart', obj);
       setCartItems((prev) => [...prev, obj]);
+      await axios.post('https://63a033b8e3113e5a5c369f14.mockapi.io/cart', obj);
     }
   } catch (error) {
     alert('Ошибка при добавлении в корзину');
@@ -85,8 +87,15 @@ const isItemAdded = (id) => {
   return (
     <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems, onAddToCart,}}>
       <div className="wrapper clear">
-        {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
+        <Drawer 
+          items={cartItems} 
+          onClose={() => setCartOpened(false)} 
+          onRemove={onRemoveItem} 
+          opened={cartOpened} 
+        />
+
         <Header onClickCart={() => setCartOpened(true)}/>
+
         <Routes>
           <Route path='/' element={
             <Home 
