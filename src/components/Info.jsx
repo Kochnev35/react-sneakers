@@ -7,8 +7,7 @@ const Info = ({title, description, image}) => {
     <div className="cartEmpty d-flex align-center justify-center flex-column flex">
         <img 
             className="mb-20" 
-            width="120px" 
-            // height="120px" 
+            width="120px"  
             src={image}
             alt="Empty"
         />

@@ -49,9 +49,11 @@ console.log(title, isItemAdded(id));
               </ContentLoader>
             ) : (
               <>
-                <div className={styles.favorite} onClick={onClickFavorite} >
-                <img src={isFavorite ? '/img/Favorite.svg' : '/img/NoFavorite.svg'} alt="Favorite"/>
-                </div>
+                {onFavorite && (
+                  <div className={styles.favorite} onClick={onClickFavorite} >
+                    <img src={isFavorite ? '/img/Favorite.svg' : '/img/NoFavorite.svg'} alt="Favorite"/>
+                  </div>
+                )}
                 <img width={150} height={140} src={imageUrl} alt="sneakers" />
                 <h5>{title}</h5>
                 <div className="d-flex justify-between align-center">
@@ -59,10 +61,13 @@ console.log(title, isItemAdded(id));
                     <span>Цена:</span>
                     <b>{price}</b>
                   </div>
+                 {onPlus && (
                   <img 
                     className={styles.plus} 
                     onClick={onClickPlus} 
-                    src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" />
+                    src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" 
+                  />
+                  )}
                 </div>
               </>
             )

@@ -7,6 +7,8 @@ import AppContext from './context';
 
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import Orders from './pages/Orders';
+
 
 function App() {
 
@@ -81,7 +83,7 @@ const isItemAdded = (id) => {
 }
 
   return (
-    <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems, }}>
+    <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, setCartOpened, setCartItems, onAddToCart,}}>
       <div className="wrapper clear">
         {cartOpened && <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} />}
         <Header onClickCart={() => setCartOpened(true)}/>
@@ -102,6 +104,11 @@ const isItemAdded = (id) => {
           <Route path="/favorites" element={
             <Favorites />}>
           </Route>
+
+          <Route path="/orders" element={
+            <Orders />}>
+          </Route>
+
         </Routes>
       </div>
     </AppContext.Provider>
