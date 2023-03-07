@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from '../components/Card/Card';
+import '../index.scss';
 
 function Home ({
   items,
@@ -25,7 +26,7 @@ function Home ({
   }; 
 
   return (
-      <div className="content p-40">
+      <div className="content">
       <div className="d-flex align-center justify-between mb-40">
         <h1>{searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}</h1>
         <div className="search-block d-flex">
@@ -40,7 +41,7 @@ function Home ({
         </div>
       </div>
       
-      <div className="d-flex flex-wrap">{renderItems()}</div>
+      <div className="content__items">{renderItems()}</div>
       
     </div>
   );

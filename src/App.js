@@ -112,7 +112,7 @@ const isItemAdded = (id) => {
         />
 
         <Header onClickCart={() => setCartOpened(true)}/>
-
+      
         <Routes>
           <Route path='/' element={
             <Home 
