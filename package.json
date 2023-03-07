@@ -7,7 +7,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.2.1",
-    "expo": "^48.0.5",
     "macro-css": "^1.0.5",
     "node-sass": "^7.0.3",
     "react": "^18.2.0",
