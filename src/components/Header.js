@@ -16,19 +16,19 @@ function Header(props) {
             </div>
           </div>
           </Link>
-        <ul className="headerRight d-flex">
-          <li onClick={props.onClickCart} className="headerCart cu-p">
-            <img width={18} height={18} src="/img/cart.svg" alt="Корзина" />
+        <ul className="headerRight d-flex align-center">
+          <li onClick={props.onClickCart} className="headerCart d-flex cu-p mr-20 align-center" >
+            <img width={20} height={20} src="/img/cart.svg" alt="Корзина" />
             <span>{totalPrice} руб.</span>
           </li>
           <Link to="/favorites">
             <li className="headerFavorites cu-p">
-              <img width={18} height={18} src="/img/heart.svg" alt="Избранное" />
+              <img width={20} height={20} src="/img/heart.svg" alt="Избранное" />
             </li>
           </Link>
           <Link to="/orders">
             <li className="headerOrders cu-p">
-              <img width={18} height={18} src="/img/user.svg" alt="Пользователь" />
+              <img width={20} height={20} src="/img/user.svg" alt="Пользователь" />
             </li>
           </Link>
         </ul>
