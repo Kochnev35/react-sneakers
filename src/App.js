@@ -3,6 +3,7 @@ import { Route, Routes  } from 'react-router-dom';
 import axios from 'axios';
 import Header from './components/Header';
 import Drawer from './components/Drawer/Drawer';
+import Footer from './components/Footer';
 import AppContext from './context';
 
 import Home from './pages/Home';
@@ -136,6 +137,9 @@ const isItemAdded = (id) => {
           </Route>
 
         </Routes>
+
+        <Footer/>
+
       </div>
     </AppContext.Provider>
   );

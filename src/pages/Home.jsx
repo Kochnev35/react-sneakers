@@ -42,8 +42,9 @@ function Home ({
       </div>
       
       <div className="content__items">{renderItems()}</div>
+
+      </div>
       
-    </div>
   );
 }
 

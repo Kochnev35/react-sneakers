@@ -1,5 +1,5 @@
 .overlay {
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -21,7 +21,7 @@
 }
   
 .drawer {
-    position: absolute;
+    position: fixed;
     width: 400px;
     height: 100%;
     right: 0;
@@ -62,7 +62,13 @@
     }
   }
   
-  @media screen and (min-width: 1024px) and (max-width: 2560px) {
+  @media screen and (min-width: 1024px) and (max-width: 1200px) {
+    .drawer {
+      width: 45%;
+    }
+  }
+
+  @media screen and (min-width: 1201px) and (max-width: 2560px) {
     .drawer {
       width: 30%;
     }
